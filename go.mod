@@ -1,3 +1,3 @@
-module github.com/karincake/tumpeng
+module github.com/karincake/tempe
 
 go 1.19
