@@ -13,6 +13,7 @@ type Errors interface {
 	GetOne(key string) Error
 	AddSimple(key, code string, params ...string)
 	AddComplete(key, code, message, expectedVal string, givenVal any)
+	Pick(key string, err error)
 	Delete(key string)
 	Count() int
 	KeyExists(key string) bool
@@ -69,6 +70,10 @@ func (i errors) AddSimple(key, code string, params ...string) {
 
 func (i errors) AddComplete(key, code, message, expectedVal string, givenVal any) {
 	i[key] = error{Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal}
+}
+
+func (i errors) Pick(key string, err error) {
+	i[key] = err
 }
 
 func (i errors) Delete(key string) {
