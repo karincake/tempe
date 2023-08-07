@@ -124,11 +124,6 @@ func NewCompleteErrors(key, code, message, expectedVal string, givenVal any) err
 	}
 }
 
-// func NewErrorsPick(key string, err error) errors {
-// 	if len(params) > 2 {
-// 		myError := errors{}
-// 		myError.AddSimple(params[0], params[1], params[2:]...)
-// 		return myError
-// 	}
-// 	return map[string]error{}
-// }
+func NewErrorsPick(key string, err error) errors {
+	return map[string]error{key: err}
+}
