@@ -118,3 +118,7 @@ func NewCompleteErrors(key, code, message, expectedVal string, givenVal any) err
 		key: {Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal},
 	}
 }
+
+func NewErrorsPick(key string, err error) errors {
+	return map[string]error{key: err}
+}
