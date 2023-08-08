@@ -24,9 +24,9 @@ type Errors interface {
 
 type error struct {
 	Code        string      `json:"code"`
-	Message     string      `json:"message,omnitempty"`
-	ExpectedVal string      `json:"expectedVal,omnitempty"`
-	GivenVal    interface{} `json:"givenVal,omnitempty"`
+	Message     string      `json:"message,omitempty"`
+	ExpectedVal string      `json:"expectedVal,omitempty"`
+	GivenVal    interface{} `json:"givenVal,omitempty"`
 }
 
 func (i error) Get() error {
