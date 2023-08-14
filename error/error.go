@@ -49,10 +49,12 @@ func (i error) SetComplete(code, message, expectedVal string, givenVal any) {
 
 type errors map[string]error
 
+// Get the errors object
 func (i errors) Get() map[string]error {
 	return i
 }
 
+// Get one error by key
 func (i errors) GetOne(key string) Error {
 	if error, ok := i[key]; ok {
 		return error
@@ -60,6 +62,7 @@ func (i errors) GetOne(key string) Error {
 	return nil
 }
 
+// Add an error by using simple parameters (key, code, [detail message])
 func (i errors) AddSimple(key, code string, params ...string) {
 	err := error{Code: code}
 	if len(params) > 0 {
@@ -68,22 +71,27 @@ func (i errors) AddSimple(key, code string, params ...string) {
 	i[key] = err
 }
 
+// Add an error by using complete parameters (key, code, detail message, expected value, given value)
 func (i errors) AddComplete(key, code, message, expectedVal string, givenVal any) {
 	i[key] = error{Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal}
 }
 
+// Add an error by using an existing error (key, error)
 func (i errors) Pick(key string, err error) {
 	i[key] = err
 }
 
+// Delete an error by key
 func (i errors) Delete(key string) {
 	delete(i, key)
 }
 
+// Get total error count
 func (i errors) Count() int {
 	return len(i)
 }
 
+// Check if a key exists
 func (i errors) KeyExists(key string) bool {
 	if _, ok := i[key]; ok {
 		return true
@@ -91,12 +99,14 @@ func (i errors) KeyExists(key string) bool {
 	return false
 }
 
+// Import existing errors
 func (i errors) Import(src errors) {
 	for idx, val := range src {
 		i[idx] = val
 	}
 }
 
+// Create instance of an error by using simple paramters (code, [message detail])
 func NewError(code string, params ...string) error {
 	myError := error{Code: code}
 	if len(params) > 0 {
@@ -105,10 +115,14 @@ func NewError(code string, params ...string) error {
 	return myError
 }
 
+// Create instance of an error by using complete paramters (code, [message detail])
 func NewCompletError(code, message, expectedVal string, givenVal any) error {
 	return error{Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal}
 }
 
+// Create instance of errors by using simple paramters ([key, code, message detail])
+// Wihtout parameters rerturns 0 count of error
+// With parameters returns 1 count of error
 func NewErrors(params ...string) errors {
 	if len(params) > 2 {
 		myError := errors{}
@@ -118,12 +132,15 @@ func NewErrors(params ...string) errors {
 	return map[string]error{}
 }
 
+// Create instance of errors by using complete paramters (key, code, message detail, expected value, given value)
+// Return 1 count of error
 func NewCompleteErrors(key, code, message, expectedVal string, givenVal any) errors {
 	return map[string]error{
 		key: {Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal},
 	}
 }
 
+// Create instance of errors by using an existing error (key, error)
 func NewErrorsPick(key string, err error) errors {
 	return map[string]error{key: err}
 }

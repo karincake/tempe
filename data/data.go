@@ -1,7 +1,12 @@
 package data
 
+// String indexed of string
 type IS map[string]string
+
+// String indexed of IS string indexed of string
 type ISIS map[string]IS
+
+// String indexed of interface
 type II map[string]interface{}
 
 type Data struct {
