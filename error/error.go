@@ -9,11 +9,11 @@ type Error interface {
 }
 
 type Errors interface {
-	Get() map[string]error
+	Get() map[string]Error
 	GetOne(key string) Error
 	AddSimple(key, code string, params ...string)
 	AddComplete(key, code, message, expectedVal string, givenVal any)
-	Pick(key string, err error)
+	Pick(key string, err Error)
 	Delete(key string)
 	Count() int
 	KeyExists(key string) bool
@@ -47,10 +47,10 @@ func (i error) SetComplete(code, message, expectedVal string, givenVal any) {
 	i.GivenVal = givenVal
 }
 
-type errors map[string]error
+type errors map[string]Error
 
 // Get the errors object
-func (i errors) Get() map[string]error {
+func (i errors) Get() map[string]Error {
 	return i
 }
 
@@ -77,7 +77,7 @@ func (i errors) AddComplete(key, code, message, expectedVal string, givenVal any
 }
 
 // Add an error by using an existing error (key, error)
-func (i errors) Pick(key string, err error) {
+func (i errors) Pick(key string, err Error) {
 	i[key] = err
 }
 
@@ -107,7 +107,7 @@ func (i errors) Import(src errors) {
 }
 
 // Create instance of an error by using simple paramters (code, [message detail])
-func NewError(code string, params ...string) error {
+func NewError(code string, params ...string) Error {
 	myError := error{Code: code}
 	if len(params) > 0 {
 		myError.Message = params[0]
@@ -116,31 +116,31 @@ func NewError(code string, params ...string) error {
 }
 
 // Create instance of an error by using complete paramters (code, [message detail])
-func NewCompletError(code, message, expectedVal string, givenVal any) error {
+func NewCompletError(code, message, expectedVal string, givenVal any) Error {
 	return error{Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal}
 }
 
 // Create instance of errors by using simple paramters ([key, code, message detail])
 // Wihtout parameters rerturns 0 count of error
 // With parameters returns 1 count of error
-func NewErrors(params ...string) errors {
+func NewErrors(params ...string) Errors {
 	if len(params) > 2 {
 		myError := errors{}
 		myError.AddSimple(params[0], params[1], params[2:]...)
 		return myError
 	}
-	return map[string]error{}
+	return errors{}
 }
 
 // Create instance of errors by using complete paramters (key, code, message detail, expected value, given value)
 // Return 1 count of error
 func NewCompleteErrors(key, code, message, expectedVal string, givenVal any) errors {
-	return map[string]error{
-		key: {Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal},
+	return map[string]Error{
+		key: error{Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal},
 	}
 }
 
 // Create instance of errors by using an existing error (key, error)
-func NewErrorsPick(key string, err error) errors {
-	return map[string]error{key: err}
+func NewErrorsPick(key string, err error) Errors {
+	return errors{key: err}
 }
