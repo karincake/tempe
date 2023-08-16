@@ -141,6 +141,6 @@ func NewCompleteErrors(key, code, message, expectedVal string, givenVal any) err
 }
 
 // Create instance of errors by using an existing error (key, error)
-func NewErrorsPick(key string, err error) Errors {
+func NewErrorsPick(key string, err Error) Errors {
 	return errors{key: err}
 }
