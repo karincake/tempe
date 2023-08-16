@@ -107,7 +107,7 @@ func (i errors) Import(src errors) {
 }
 
 // Create instance of an error by using simple paramters (code, [message detail])
-func NewError(code string, params ...string) Error {
+func NewError(code string, params ...string) error {
 	myError := error{Code: code}
 	if len(params) > 0 {
 		myError.Message = params[0]
@@ -116,14 +116,14 @@ func NewError(code string, params ...string) Error {
 }
 
 // Create instance of an error by using complete paramters (code, [message detail])
-func NewCompletError(code, message, expectedVal string, givenVal any) Error {
+func NewCompletError(code, message, expectedVal string, givenVal any) error {
 	return error{Code: code, Message: message, ExpectedVal: expectedVal, GivenVal: givenVal}
 }
 
 // Create instance of errors by using simple paramters ([key, code, message detail])
 // Wihtout parameters rerturns 0 count of error
 // With parameters returns 1 count of error
-func NewErrors(params ...string) Errors {
+func NewErrors(params ...string) errors {
 	if len(params) > 2 {
 		myError := errors{}
 		myError.AddSimple(params[0], params[1], params[2:]...)
@@ -141,6 +141,6 @@ func NewCompleteErrors(key, code, message, expectedVal string, givenVal any) err
 }
 
 // Create instance of errors by using an existing error (key, error)
-func NewErrorsPick(key string, err Error) Errors {
+func NewErrorsPick(key string, err Error) errors {
 	return errors{key: err}
 }
