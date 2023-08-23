@@ -3,7 +3,7 @@ package error
 /////// Interfaces
 
 type Error interface {
-	// Get() error
+	Get() error
 	SetSimple(code string, params ...string)
 	SetComplete(code, message, expectedVal string, givenVal any)
 }
@@ -11,6 +11,7 @@ type Error interface {
 type Errors interface {
 	Get() map[string]Error
 	GetOne(key string) Error
+	GetFirst() Error
 	AddSimple(key, code string, params ...string)
 	AddComplete(key, code, message, expectedVal string, givenVal any)
 	Pick(key string, err Error)
@@ -58,6 +59,13 @@ func (i errors) Get() map[string]Error {
 func (i errors) GetOne(key string) Error {
 	if error, ok := i[key]; ok {
 		return error
+	}
+	return nil
+}
+
+func (i errors) GetFirst() Error {
+	for _, err := range i {
+		return err
 	}
 	return nil
 }
