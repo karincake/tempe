@@ -5,7 +5,6 @@ package error
 import "fmt"
 
 type XError struct {
-	Source      string `json:"source"`
 	Code        string `json:"code"`
 	Message     string `json:"message,omitempty"`
 	ExpectedVal string `json:"expectedVal,omitempty"`
