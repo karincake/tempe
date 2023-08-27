@@ -8,7 +8,7 @@ type XErrors map[string]XError
 func (e XErrors) Error() string {
 	output := ""
 	for _, err := range e {
-		output += fmt.Sprintf("code: %v; message: %v; expected value: %v; given value: %v \n", err.Code, err.Message, err.ExpectedVal, err.GivenVal)
+		output += fmt.Sprintf("field: %v, code: %v; message: %v; expected value: %v; given value: %v \n", err.Source, err.Code, err.Message, err.ExpectedVal, err.GivenVal)
 	}
 	return output
 }
